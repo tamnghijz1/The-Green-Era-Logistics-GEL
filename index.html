@@ -2214,7 +2214,7 @@
         }
 
         // --- NAVIGATION ---
-        function navigate(pageId) {
+        function navigate(pageId, addToHistory = true) {
             document.querySelectorAll('.page-section').forEach(page => page.classList.add('hidden'));
             document.getElementById(pageId).classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -2232,8 +2232,18 @@
                 toggleRouteFields();
                 calculatePrice(); 
             }
-        }
 
+            // Ghi nhận lịch sử duyệt web vào thanh địa chỉ (URL) nằm TRONG hàm navigate
+            if (addToHistory) {
+                history.pushState({ pageId: pageId }, "", "#" + pageId);
+            }
+        } // <-- Dấu ngoặc chốt sổ hàm navigate nằm ở đây
+
+        // Lắng nghe sự kiện người dùng vuốt mép màn hình (Back/Forward)
+        window.addEventListener('popstate', function(event) {
+            const pageId = event.state && event.state.pageId ? event.state.pageId : 'landing-page';
+            navigate(pageId, false); // Chuyển trang nhưng không ghi thêm lịch sử mới
+        });
         document.addEventListener('click', function(e) {
             const container = document.getElementById('user-profile-nav');
             if (container && !container.contains(e.target)) {
@@ -2245,7 +2255,7 @@
             }
         });
 
-        window.onload = () => {
+       window.onload = () => {
             const rememberedUser = localStorage.getItem('gel_remembered_user');
             if (rememberedUser) {
                 currentUser = JSON.parse(rememberedUser);
@@ -2259,6 +2269,13 @@
             toggleRouteFields();
             
             document.querySelectorAll('#submit-btn').forEach(btn => btn.onclick = processBooking);
+
+            // BẮT ĐẦU THÊM: Khởi tạo lịch sử khi trang vừa load xong
+            const hash = window.location.hash.substring(1);
+            const initialPage = (hash && document.getElementById(hash)) ? hash : 'landing-page';
+            history.replaceState({ pageId: initialPage }, "", "#" + initialPage);
+            navigate(initialPage, false);
+            // KẾT THÚC THÊM
         }
     </script>
 </body>
