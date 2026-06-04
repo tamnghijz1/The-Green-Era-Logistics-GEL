@@ -939,22 +939,29 @@
                                     </div>
 
                                     <div id="leg-2" class="pb-5 md:pb-6 transition-all duration-300 relative">
-                                        <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-blue-500 border-2 border-blue-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-building-circle-check text-white text-[8px] md:text-[10px]"></i></div>
-                                        <div class="pl-5 md:pl-6">
-                                            <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3">
-                                                <span class="lang-vi">Đến: Central Hub (Nội đô TPHCM)</span><span class="lang-en">To: Central Hub (HCMC Center)</span>
-                                            </h3>
-                                            <div class="relative">
-                                                <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-arrow-down-up-across-line text-blue-500 text-sm"></i></div>
-                                                <select id="central-hub" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-bold text-blue-800 bg-blue-50 border border-blue-100 rounded-xl outline-none transition-all cursor-pointer shadow-sm" onchange="updateSpokes()">
-                                                    <option value="tanbinh" data-vi-text="Central Hub Tân Bình (Khu hậu cần Sân bay)" data-en-text="Central Hub Tan Binh (Airport logistics zone)">Central Hub Tân Bình (Khu hậu cần Sân bay)</option>
-                                                    <option value="catlai" data-vi-text="Central Hub Cát Lái (Cụm cảng trung chuyển)" data-en-text="Central Hub Cat Lai (Port transit cluster)">Central Hub Cát Lái (Cụm cảng trung chuyển)</option>
-                                                    <option value="binhchanh" data-vi-text="Central Hub Bình Chánh (Cửa ngõ miền Tây)" data-en-text="Central Hub Binh Chanh (Western gateway)">Central Hub Bình Chánh (Cửa ngõ miền Tây)</option>
-                                                    <option value="thuduc" data-vi-text="Central Hub Thủ Đức (Khu công nghệ cao)" data-en-text="Central Hub Thu Duc (Hi-Tech Park)">Central Hub Thủ Đức (Khu công nghệ cao)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+    <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-blue-500 border-2 border-blue-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-building-circle-check text-white text-[8px] md:text-[10px]"></i></div>
+    <div class="pl-5 md:pl-6">
+        <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3">
+            <span class="lang-vi">Đến: Central Hub (Nội đô TPHCM)</span><span class="lang-en">To: Central Hub (HCMC Center)</span>
+        </h3>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-arrow-down-up-across-line text-blue-500 text-sm"></i></div>
+            <select id="central-hub" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-bold text-blue-800 bg-blue-50 border border-blue-100 rounded-xl outline-none transition-all cursor-pointer shadow-sm" onchange="updateSpokes(); updateMap();">
+                <option value="tanbinh" data-vi-text="Central Hub Tân Bình (Khu hậu cần Sân bay)" data-en-text="Central Hub Tan Binh (Airport logistics zone)">Central Hub Tân Bình (Khu hậu cần Sân bay)</option>
+                <option value="catlai" data-vi-text="Central Hub Cát Lái (Cụm cảng trung chuyển)" data-en-text="Central Hub Cat Lai (Port transit cluster)">Central Hub Cát Lái (Cụm cảng trung chuyển)</option>
+                <option value="binhchanh" data-vi-text="Central Hub Bình Chánh (Cửa ngõ miền Tây)" data-en-text="Central Hub Binh Chanh (Western gateway)">Central Hub Bình Chánh (Cửa ngõ miền Tây)</option>
+                <option value="thuduc" data-vi-text="Central Hub Thủ Đức (Khu công nghệ cao)" data-en-text="Central Hub Thu Duc (Hi-Tech Park)">Central Hub Thủ Đức (Khu công nghệ cao)</option>
+            </select>
+        </div>
+        
+        <!-- Ô nhập địa chỉ chi tiết cho Hub vừa được thêm vào -->
+        <div class="relative group mt-2 md:mt-3">
+            <input type="text" id="hub-address" onblur="updateMap();" onkeydown="if(event.key === 'Enter') { updateMap(); }" data-vi-placeholder="Nhập địa chỉ Hub chi tiết (VD: Cổng B, Cảng Cát Lái)" data-en-placeholder="Enter specific Hub address" placeholder="Nhập địa chỉ Hub chi tiết (VD: Cổng B, Cảng Cát Lái)" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-map-pin text-gray-400 text-sm group-focus-within:text-blue-500 transition-colors"></i></div>
+        </div>
+        
+    </div>
+</div>
 
                                     <div id="leg-3" class="relative">
                                         <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-white border-2 border-red-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-location-dot text-red-500 text-[8px] md:text-[10px]"></i></div>
