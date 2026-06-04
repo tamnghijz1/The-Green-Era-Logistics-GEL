@@ -1043,11 +1043,30 @@
                                             <div><p class="font-bold text-gel-midnight text-xs md:text-sm"><span class="lang-vi">Hàng quá khổ</span><span class="lang-en">Oversized Cargo</span></p></div></div>
                                         <span class="font-bold text-gray-700 text-xs md:text-sm bg-white px-2 py-1 rounded shadow-sm border border-gray-100">+75k</span>
                                     </label>
-                                    <label class="flex items-center justify-between border border-gray-100 bg-gray-50 p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer hover:bg-purple-50 hover:border-purple-200 transition-all">
-                                        <div class="flex items-center space-x-3"><input type="checkbox" id="cb-khunggio" class="w-4 h-4 md:w-5 md:h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500 cursor-pointer" onchange="calculatePrice()">
-                                            <div><p class="font-bold text-gel-midnight text-xs md:text-sm"><span class="lang-vi">Giao theo khung giờ</span><span class="lang-en">Time-slot Delivery</span></p></div></div>
-                                        <span class="font-bold text-gray-700 text-xs md:text-sm bg-white px-2 py-1 rounded shadow-sm border border-gray-100">+40k</span>
-                                    </label>
+                                    <div class="border border-gray-100 bg-gray-50 rounded-xl md:rounded-2xl transition-all hover:bg-purple-50 hover:border-purple-200 focus-within:bg-purple-50 focus-within:border-purple-200 flex flex-col overflow-hidden">
+    <!-- Nút bấm và Label -->
+    <label class="flex items-center justify-between p-3 md:p-4 cursor-pointer w-full">
+        <div class="flex items-center space-x-3">
+            <!-- Thêm lệnh toggle hiển thị khung giờ trực tiếp vào onchange -->
+            <input type="checkbox" id="cb-khunggio" class="w-4 h-4 md:w-5 md:h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500 cursor-pointer" onchange="document.getElementById('time-slot-container').classList.toggle('hidden', !this.checked); calculatePrice();">
+            <div>
+                <p class="font-bold text-gel-midnight text-xs md:text-sm"><span class="lang-vi">Giao theo khung giờ</span><span class="lang-en">Time-slot Delivery</span></p>
+            </div>
+        </div>
+        <span class="font-bold text-gray-700 text-xs md:text-sm bg-white px-2 py-1 rounded shadow-sm border border-gray-100">+40k</span>
+    </label>
+    
+    <!-- Khung chọn giờ (Mặc định ẩn đi với class 'hidden') -->
+    <div id="time-slot-container" class="hidden px-3 pb-3 md:px-4 md:pb-4 animate-[fadeIn_0.3s_ease-in-out]">
+        <select id="selected-time-slot" class="w-full px-3 py-2 md:py-2.5 text-xs md:text-sm font-semibold text-gel-midnight bg-white border border-gray-200 rounded-lg focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none shadow-sm cursor-pointer transition-all">
+            <option value="" disabled selected data-vi-text="-- Chọn khung giờ mong muốn --" data-en-text="-- Select desired time slot --">-- Chọn khung giờ mong muốn --</option>
+            <option value="08:00-10:00">08:00 - 10:00 (Sáng / Morning)</option>
+            <option value="10:00-12:00">10:00 - 12:00 (Trưa / Noon)</option>
+            <option value="13:00-15:00">13:00 - 15:00 (Chiều / Afternoon)</option>
+            <option value="15:00-17:00">15:00 - 17:00 (Tối / Evening)</option>
+        </select>
+    </div>
+</div>
                                     <label class="flex items-center justify-between border border-gray-100 bg-gray-50 p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer hover:bg-purple-50 hover:border-purple-200 transition-all">
                                         <div class="flex items-center space-x-3"><input type="checkbox" id="cb-baohiem" class="w-4 h-4 md:w-5 md:h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500 cursor-pointer" onchange="calculatePrice()">
                                             <div><p class="font-bold text-gel-midnight text-xs md:text-sm"><span class="lang-vi">Bảo hiểm hàng hóa</span><span class="lang-en">Cargo Insurance</span></p><p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">1.5% <span class="lang-vi">cước</span><span class="lang-en">fee</span></p></div></div>
@@ -1754,27 +1773,37 @@
 
         // --- GOOGLE MAPS LIVE PINNING ---
         function updateMap() {
-            const pickupInput = document.getElementById('pickup-address');
-            const destInput = document.getElementById('dest-address');
             const iframe = document.getElementById('live-map');
+            if (!iframe) return;
+
+            // 1. Lấy dữ liệu Điểm Đi (A)
+            const pickupInput = document.getElementById('pickup-address') ? document.getElementById('pickup-address').value.trim() : '';
+            const originSelect = document.getElementById('origin');
+            const originText = originSelect ? originSelect.options[originSelect.selectedIndex].text : '';
             
-            if (iframe) {
-                const pickup = pickupInput ? pickupInput.value.trim() : '';
-                const dest = destInput ? destInput.value.trim() : '';
-                
-                if (pickup !== '' && dest !== '') {
-                    const saddr = encodeURIComponent(pickup + ', Việt Nam');
-                    const daddr = encodeURIComponent(dest + ', Việt Nam');
-                    iframe.src = `http://googleusercontent.com/maps.google.com/maps?saddr=${saddr}&daddr=${daddr}&output=embed`;
-                } else if (dest !== '') {
-                    const q = encodeURIComponent(dest + ', Việt Nam');
-                    iframe.src = `http://googleusercontent.com/maps.google.com/maps?q=${q}&output=embed`;
-                } else if (pickup !== '') {
-                    const q = encodeURIComponent(pickup + ', Việt Nam');
-                    iframe.src = `http://googleusercontent.com/maps.google.com/maps?q=${q}&output=embed`;
-                }
+            // Ưu tiên ô nhập tay, nếu trống thì lấy chữ ở thanh Dropdown
+            let pointA = pickupInput !== '' ? pickupInput : originText;
+
+            // 2. Lấy dữ liệu Điểm Đến (B)
+            const destInput = document.getElementById('dest-address') ? document.getElementById('dest-address').value.trim() : '';
+            const centralSelect = document.getElementById('central-hub');
+            const centralText = centralSelect ? centralSelect.options[centralSelect.selectedIndex].text : '';
+            const spokeLabel = document.getElementById('spoke-dropdown-label') ? document.getElementById('spoke-dropdown-label').innerText : '';
+            const spokeListVal = document.getElementById('spoke-list') ? document.getElementById('spoke-list').value : 'none';
+            
+            // Ưu tiên ô nhập tay -> Chọn Spoke -> Chọn Central Hub
+            let pointB = destInput !== '' ? destInput : (spokeListVal !== 'none' && !spokeLabel.includes('Không qua') ? spokeLabel : centralText);
+
+            // 3. Làm sạch chuỗi để Google Maps dễ tìm đường (Xóa chữ trong ngoặc đơn và từ khóa)
+            pointA = pointA.replace(/\([^)]*\)/g, '').replace('Pooling Hub ', '').trim() + ', Việt Nam';
+            pointB = pointB.replace(/\([^)]*\)/g, '').replace('Central Hub ', '').replace('Spoke ', '').trim() + ', Việt Nam';
+
+            // 4. Mã hóa và nhúng vào iFrame
+            if (pointA && pointB) {
+                const saddr = encodeURIComponent(pointA);
+                const daddr = encodeURIComponent(pointB);
+                iframe.src = `https://maps.google.com/maps?saddr=${saddr}&daddr=${daddr}&output=embed`;
             }
-            calculatePrice();
         }
 
         // --- TERMINAL CONSOLE AI MƯỢT MÀ ---
@@ -1861,11 +1890,13 @@
                         document.getElementById('spoke-list').value = item.val;
                         menu.classList.add('hidden');
                         calculatePrice(); 
+                        updateMap(); // Lệnh mới: Cập nhật map ngay khi click chọn Spoke
                     };
                     menu.appendChild(div);
                 });
             }
             calculatePrice();
+            updateMap(); // Lệnh mới: Cập nhật map khi đổi Central Hub
         }
 
         function toggleSpokeDropdown(e) {
@@ -2004,7 +2035,7 @@
                 const poolAmt = document.getElementById('pooling-discount-amt');
                 if(poolAmt) poolAmt.innerText = "-" + formatMoney(poolingDiscount);
             } else {
-                expressFee = 150000;
+                expressFee = 300000;
                 if(poolRow) poolRow.classList.add('hidden');
                 if(expRow) expRow.classList.remove('hidden');
                 const expAmt = document.getElementById('express-fee-amt');
@@ -2300,15 +2331,21 @@
             updateESGDashboardData();
             updateSpokes();
             toggleRouteFields();
+            updateMap(); // Lệnh mới: Vẽ bản đồ ngay khi mở trang
             
             document.querySelectorAll('#submit-btn').forEach(btn => btn.onclick = processBooking);
 
-            // BẮT ĐẦU THÊM: Khởi tạo lịch sử khi trang vừa load xong
+            // Lệnh mới: Lắng nghe sự thay đổi của Dropdown để tự vẽ lại bản đồ
+            const originEl = document.getElementById('origin');
+            if(originEl) originEl.addEventListener('change', updateMap);
+            const routeTypeEl = document.getElementById('route-type');
+            if(routeTypeEl) routeTypeEl.addEventListener('change', updateMap);
+
+            // Khởi tạo lịch sử khi trang vừa load xong
             const hash = window.location.hash.substring(1);
             const initialPage = (hash && document.getElementById(hash)) ? hash : 'landing-page';
             history.replaceState({ pageId: initialPage }, "", "#" + initialPage);
             navigate(initialPage, false);
-            // KẾT THÚC THÊM
         }
     </script>
 </body>
