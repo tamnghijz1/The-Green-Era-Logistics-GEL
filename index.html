@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEL - The Green Era Logistics</title>
-    <link rel="icon" type="image/png" href=logo.png>
+    <link rel="icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -151,15 +151,13 @@
     <a href="javascript:void(0)" onclick="navigate('booking-page'); toggleMobileMenu();" class="font-bold text-gel-DEFAULT"><i class="fa-solid fa-truck-fast mr-2"></i>Cổng Đặt Xe</a>
     <button onclick="toggleLanguage(); toggleMobileMenu();" class="text-left font-bold text-gray-600"><i class="fa-solid fa-language mr-2"></i> Đổi Ngôn Ngữ</button>
     
-    <!-- BẮT ĐẦU: Khối Tài khoản Mobile -->
     <button id="mobile-btn-login" onclick="openModal('modal-auth'); toggleMobileMenu();" class="text-left font-bold text-gel-DEFAULT"><i class="fa-solid fa-arrow-right-to-bracket mr-2"></i> <span class="lang-vi">Đăng nhập</span><span class="lang-en">Login</span></button>
     
     <div id="mobile-user-profile" class="hidden flex-col space-y-4">
         <a href="javascript:void(0)" onclick="navigate('account-page'); toggleMobileMenu();" class="font-bold text-gel-DEFAULT"><i class="fa-solid fa-user-pen mr-2"></i><span class="lang-vi">Quản lý tài khoản</span><span class="lang-en">Account Settings</span></a>
         <button onclick="logout(); toggleMobileMenu();" class="text-left font-bold text-red-500"><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i><span class="lang-vi">Đăng xuất</span><span class="lang-en">Log Out</span></button>
     </div>
-    <!-- KẾT THÚC: Khối Tài khoản Mobile -->
-</div>
+    </div>
     </nav>
 
     <main class="flex-grow overflow-x-hidden">
@@ -846,150 +844,134 @@
             </div>
         </div>
 
-        <div id="booking-page" class="page-section hidden fade-in pt-24 md:pt-28 pb-10 md:pb-16 bg-gray-50 min-h-screen relative">
-    
-    <div id="lock-overlay" class="absolute inset-0 z-[60] bg-white/60 backdrop-blur-md flex flex-col items-center justify-center rounded-3xl transition-opacity duration-300">
-        <div class="bg-white p-6 md:p-8 rounded-2xl shadow-2xl border border-gray-100 text-center max-w-md w-full mx-4">
-            <div class="w-14 h-14 md:w-16 md:h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-2xl md:text-3xl mx-auto mb-4"><i class="fa-solid fa-lock"></i></div>
-            <h3 class="text-xl md:text-2xl font-black text-gel-midnight mb-2"><span class="lang-vi">Yêu cầu Đăng nhập</span><span class="lang-en">Login Required</span></h3>
-            <p class="text-gray-500 text-xs md:text-sm mb-6"><span class="lang-vi">Cổng đặt xe chỉ dành riêng cho các tài khoản Đối tác Doanh nghiệp nội bộ của GEL. Vui lòng đăng nhập để tiếp tục!</span><span class="lang-en">The booking portal is exclusively for GEL's internal enterprise partners. Please log in to continue!</span></p>
-            <button onclick="openModal('modal-auth')" class="w-full bg-[#047857] hover:bg-[#064e3b] text-white font-bold py-3 md:py-3.5 rounded-xl shadow-lg transition cursor-pointer text-sm md:text-base"><span class="lang-vi">Đăng nhập tài khoản</span><span class="lang-en">Login Account</span></button>
-        </div>
-    </div>
+        <div id="booking-page" class="page-section hidden fade-in pt-28 pb-16 bg-gray-50 min-h-screen relative">
+            <div id="booking-content" class="transition-all duration-500">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col lg:flex-row gap-6 md:gap-8">
+                        
+                        <div class="w-full lg:w-2/3 space-y-4 md:space-y-6">
+                            <div class="bg-white p-5 md:p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
+                                <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center text-gel-midnight"><span class="bg-gel-midnight text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center mr-2 md:mr-3 text-xs md:text-sm">1</span> <span class="lang-vi">Thông tin Gói Vận Tải</span><span class="lang-en">Transport Package</span></h2>
+                                
+                                <div class="mb-5 md:mb-6">
+                                    <label class="block text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-wider mb-2"><span class="lang-vi">Lựa chọn Lộ trình Vận tải</span><span class="lang-en">Select Transport Route</span></label>
+                                    <select id="route-type" class="block w-full px-4 py-3 md:px-5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none shadow-sm cursor-pointer transition-all" onchange="toggleRouteFields(); calculatePrice()">
+                                        <option value="hub-hub-lastmile" selected data-vi-text="Đa chặng Toàn trình (Multimodal): Hub -> Hub -> Last-mile" data-en-text="Multimodal Full Route: Hub -> Hub -> Last-mile">Đa chặng Toàn trình (Multimodal): Hub -> Hub -> Last-mile</option>
+                                        <option value="hub-hub" data-vi-text="Chỉ Tuyến chính: Từ Hub Vành đai -> Hub Nội đô (EV Truck)" data-en-text="Main Route Only: Suburban Hub -> Urban Hub (EV Truck)">Chỉ Tuyến chính: Từ Hub Vành đai -> Hub Nội đô (EV Truck)</option>
+                                        <option value="hub-lastmile" data-vi-text="Chỉ Tuyến phụ & Giao cuối: Hub Nội đô -> Giao Last-mile (EV Van & Bike)" data-en-text="Sub Route & Last-mile Only: Urban Hub -> Last-mile (EV Van & Bike)">Chỉ Tuyến phụ & Giao cuối: Hub Nội đô -> Giao Last-mile (EV Van & Bike)</option>
+                                    </select>
+                                </div>
 
-    <div id="booking-content" class="transition-all duration-500">
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             </div>
-
-    </div> 
-</div>
-
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col lg:flex-row gap-6 md:gap-8">
-                    
-                    <div class="w-full lg:w-2/3 space-y-4 md:space-y-6">
-                        <div class="bg-white p-5 md:p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100">
-                            <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center text-gel-midnight"><span class="bg-gel-midnight text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center mr-2 md:mr-3 text-xs md:text-sm">1</span> <span class="lang-vi">Thông tin Gói Vận Tải</span><span class="lang-en">Transport Package</span></h2>
-                            
-                            <div class="mb-5 md:mb-6">
-                                <label class="block text-[10px] md:text-xs font-bold text-gray-800 uppercase tracking-wider mb-2"><span class="lang-vi">Lựa chọn Lộ trình Vận tải</span><span class="lang-en">Select Transport Route</span></label>
-                                <select id="route-type" class="block w-full px-4 py-3 md:px-5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none shadow-sm cursor-pointer transition-all" onchange="toggleRouteFields(); calculatePrice()">
-                                    <option value="hub-hub-lastmile" selected data-vi-text="Đa chặng Toàn trình (Multimodal): Hub -> Hub -> Last-mile" data-en-text="Multimodal Full Route: Hub -> Hub -> Last-mile">Đa chặng Toàn trình (Multimodal): Hub -> Hub -> Last-mile</option>
-                                    <option value="hub-hub" data-vi-text="Chỉ Tuyến chính: Từ Hub Vành đai -> Hub Nội đô (EV Truck)" data-en-text="Main Route Only: Suburban Hub -> Urban Hub (EV Truck)">Chỉ Tuyến chính: Từ Hub Vành đai -> Hub Nội đô (EV Truck)</option>
-                                    <option value="hub-lastmile" data-vi-text="Chỉ Tuyến phụ & Giao cuối: Hub Nội đô -> Giao Last-mile (EV Van & Bike)" data-en-text="Sub Route & Last-mile Only: Urban Hub -> Last-mile (EV Van & Bike)">Chỉ Tuyến phụ & Giao cuối: Hub Nội đô -> Giao Last-mile (EV Van & Bike)</option>
-                                </select>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                                <label class="relative block border-2 border-gray-100 rounded-2xl p-4 md:p-6 cursor-pointer hover:border-gel-DEFAULT transition-all group has-[:checked]:border-gel-DEFAULT">
-                                    <input type="radio" name="transport_mode" value="pooling" class="peer absolute right-4 top-4 text-gel-DEFAULT w-4 h-4 md:w-5 md:h-5 focus:ring-gel-DEFAULT cursor-pointer" onchange="unlockForm(); calculatePrice();" checked>
-                                    <div class="hidden peer-checked:block absolute inset-0 rounded-2xl border-2 border-gel-DEFAULT bg-green-50/50 pointer-events-none"></div>
-                                    <div class="relative z-10">
-                                        <div class="bg-white shadow-sm border border-gray-100 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-3 md:mb-4 text-gel-DEFAULT">
-                                            <i class="fa-solid fa-layer-group text-lg md:text-xl"></i>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                                    <label class="relative block border-2 border-gray-100 rounded-2xl p-4 md:p-6 cursor-pointer hover:border-gel-DEFAULT transition-all group has-[:checked]:border-gel-DEFAULT">
+                                        <input type="radio" name="transport_mode" value="pooling" class="peer absolute right-4 top-4 text-gel-DEFAULT w-4 h-4 md:w-5 md:h-5 focus:ring-gel-DEFAULT cursor-pointer" onchange="unlockForm(); calculatePrice();" checked>
+                                        <div class="hidden peer-checked:block absolute inset-0 rounded-2xl border-2 border-gel-DEFAULT bg-green-50/50 pointer-events-none"></div>
+                                        <div class="relative z-10">
+                                            <div class="bg-white shadow-sm border border-gray-100 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-3 md:mb-4 text-gel-DEFAULT">
+                                                <i class="fa-solid fa-layer-group text-lg md:text-xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gel-midnight mb-1 md:mb-1.5 text-base md:text-lg">GEL Pooling</h3>
+                                            <p class="text-[11px] md:text-xs text-gray-500 leading-relaxed"><span class="lang-vi">Tối ưu chi phí bằng ghép hàng. Áp dụng mức ưu đãi lớn nhất.</span><span class="lang-en">Optimize costs by order pooling. Highest discount applied.</span></p>
                                         </div>
-                                        <h3 class="font-bold text-gel-midnight mb-1 md:mb-1.5 text-base md:text-lg">GEL Pooling</h3>
-                                        <p class="text-[11px] md:text-xs text-gray-500 leading-relaxed"><span class="lang-vi">Tối ưu chi phí bằng ghép hàng. Áp dụng mức ưu đãi lớn nhất.</span><span class="lang-en">Optimize costs by order pooling. Highest discount applied.</span></p>
-                                    </div>
-                                </label>
+                                    </label>
 
-                                <label class="relative block border-2 border-gray-100 rounded-2xl p-4 md:p-6 cursor-pointer hover:border-orange-500 transition-all group has-[:checked]:border-orange-500">
-                                    <input type="radio" name="transport_mode" value="express" class="peer absolute right-4 top-4 text-orange-500 w-4 h-4 md:w-5 md:h-5 focus:ring-orange-500 cursor-pointer accent-orange-500" onchange="unlockForm(); calculatePrice();">
-                                    <div class="hidden peer-checked:block absolute inset-0 rounded-2xl border-2 border-orange-500 bg-orange-50/10 pointer-events-none"></div>
-                                    <div class="relative z-10">
-                                        <div class="bg-white shadow-sm border border-gray-100 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-3 md:mb-4 text-orange-500">
-                                            <i class="fa-solid fa-bolt text-lg md:text-xl"></i>
+                                    <label class="relative block border-2 border-gray-100 rounded-2xl p-4 md:p-6 cursor-pointer hover:border-orange-500 transition-all group has-[:checked]:border-orange-500">
+                                        <input type="radio" name="transport_mode" value="express" class="peer absolute right-4 top-4 text-orange-500 w-4 h-4 md:w-5 md:h-5 focus:ring-orange-500 cursor-pointer accent-orange-500" onchange="unlockForm(); calculatePrice();">
+                                        <div class="hidden peer-checked:block absolute inset-0 rounded-2xl border-2 border-orange-500 bg-orange-50/10 pointer-events-none"></div>
+                                        <div class="relative z-10">
+                                            <div class="bg-white shadow-sm border border-gray-100 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-3 md:mb-4 text-orange-500">
+                                                <i class="fa-solid fa-bolt text-lg md:text-xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gel-midnight mb-1 md:mb-1.5 text-base md:text-lg"><span class="lang-vi">Giao Hỏa Tốc</span><span class="lang-en">Express Delivery</span></h3>
+                                            <p class="text-[11px] md:text-xs text-gray-500 leading-relaxed"><span class="lang-vi">Bao nguyên chuyến. Chạy thẳng ngay lập tức, không chiết khấu Pooling.</span><span class="lang-en">Dedicated truck. Direct immediate delivery, no Pooling discount.</span></p>
                                         </div>
-                                        <h3 class="font-bold text-gel-midnight mb-1 md:mb-1.5 text-base md:text-lg"><span class="lang-vi">Giao Hỏa Tốc</span><span class="lang-en">Express Delivery</span></h3>
-                                        <p class="text-[11px] md:text-xs text-gray-500 leading-relaxed"><span class="lang-vi">Bao nguyên chuyến. Chạy thẳng ngay lập tức, không chiết khấu Pooling.</span><span class="lang-en">Dedicated truck. Direct immediate delivery, no Pooling discount.</span></p>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div id="step-form" class="bg-white p-5 md:p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 step-disabled relative">
-                            <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center text-gel-midnight"><span class="bg-blue-600 text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center mr-2 md:mr-3 text-xs md:text-sm">2</span> <span class="lang-vi">Xây dựng Lộ trình (Routing)</span><span class="lang-en">Build Routing</span></h2>
-                            
-                            <div class="w-full h-48 md:h-64 bg-gray-200 rounded-2xl overflow-hidden mb-6 md:mb-8 border border-gray-200 relative shadow-inner">
-                                <iframe id="live-map" src="https://maps.google.com/maps?q=Hồ Chí Minh, Việt Nam&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="grayscale contrast-125 opacity-80"></iframe>
-                                <div class="absolute top-2 left-2 md:top-4 md:left-4 bg-white/95 backdrop-blur px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-md text-[10px] md:text-[11px] font-bold text-gel-midnight flex items-center uppercase tracking-wider border border-gray-100">
-                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse mr-1.5 md:mr-2"></span> LIVE GPS
+                                    </label>
                                 </div>
                             </div>
 
-                            <div class="space-y-0 relative ml-2 mt-4">
-                                <div class="absolute left-2.5 md:left-3 top-6 bottom-16 w-0.5 bg-gray-200 -z-10 border-l-2 border-dashed border-gray-300"></div>
-
-                                <div id="leg-1" class="pb-5 md:pb-6 relative">
-                                    <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-warehouse text-blue-500 text-[8px] md:text-[10px]"></i></div>
-                                    <div class="pl-5 md:pl-6">
-                                        <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3"><span class="lang-vi">Từ: Pooling Hub (Vành đai công nghiệp)</span><span class="lang-en">From: Pooling Hub (Industrial Belt)</span></h3>
-                                        <div class="relative">
-                                            <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-location-crosshairs text-gray-400 text-sm"></i></div>
-                                            <select id="origin" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer shadow-sm" onchange="calculatePrice()">
-                                                <option value="25" data-vi-text="Pooling Hub Dĩ An, Bình Dương (~ 25 km trục chính)" data-en-text="Pooling Hub Di An, Binh Duong (~ 25 km main route)">Pooling Hub Dĩ An, Bình Dương (~ 25 km trục chính)</option>
-                                                <option value="35" data-vi-text="Pooling Hub Biên Hòa, Đồng Nai (~ 35 km trục chính)" data-en-text="Pooling Hub Bien Hoa, Dong Nai (~ 35 km main route)">Pooling Hub Biên Hòa, Đồng Nai (~ 35 km trục chính)</option>
-                                                <option value="65" data-vi-text="Pooling Hub Phú Mỹ, BR-VT (~ 65 km trục chính)" data-en-text="Pooling Hub Phu My, BR-VT (~ 65 km main route)">Pooling Hub Phú Mỹ, BR-VT (~ 65 km trục chính)</option>
-                                                <option value="20" data-vi-text="Pooling Hub Bến Lức, Long An (~ 20 km trục chính)" data-en-text="Pooling Hub Ben Luc, Long An (~ 20 km main route)">Pooling Hub Bến Lức, Long An (~ 20 km trục chính)</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="relative group mt-2 md:mt-3">
-                                            <input type="text" id="pickup-address" onblur="updateMap();" onkeydown="if(event.key === 'Enter') { updateMap(); }" data-vi-placeholder="Nhập địa điểm lấy hàng chi tiết (VD: KCN Sóng Thần)" data-en-placeholder="Enter specific pickup address" placeholder="Nhập địa điểm lấy hàng chi tiết (VD: KCN Sóng Thần)" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
-                                            <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-location-arrow text-gray-400 text-sm group-focus-within:text-gel-DEFAULT transition-colors"></i></div>
-                                        </div>
+                            <div id="step-form" class="bg-white p-5 md:p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 relative">
+                                <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center text-gel-midnight"><span class="bg-blue-600 text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center mr-2 md:mr-3 text-xs md:text-sm">2</span> <span class="lang-vi">Xây dựng Lộ trình (Routing)</span><span class="lang-en">Build Routing</span></h2>
+                                
+                                <div class="w-full h-48 md:h-64 bg-gray-200 rounded-2xl overflow-hidden mb-6 md:mb-8 border border-gray-200 relative shadow-inner">
+                                    <iframe id="live-map" src="https://maps.google.com/maps?q=Hồ Chí Minh, Việt Nam&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="grayscale contrast-125 opacity-80"></iframe>
+                                    <div class="absolute top-2 left-2 md:top-4 md:left-4 bg-white/95 backdrop-blur px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-md text-[10px] md:text-[11px] font-bold text-gel-midnight flex items-center uppercase tracking-wider border border-gray-100">
+                                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse mr-1.5 md:mr-2"></span> LIVE GPS
                                     </div>
                                 </div>
 
-                                <div id="leg-2" class="pb-5 md:pb-6 transition-all duration-300 relative">
-                                    <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-blue-500 border-2 border-blue-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-building-circle-check text-white text-[8px] md:text-[10px]"></i></div>
-                                    <div class="pl-5 md:pl-6">
-                                        <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3">
-                                            <span class="lang-vi">Đến: Central Hub (Nội đô TPHCM)</span><span class="lang-en">To: Central Hub (HCMC Center)</span>
-                                        </h3>
-                                        <div class="relative">
-                                            <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-arrow-down-up-across-line text-blue-500 text-sm"></i></div>
-                                            <select id="central-hub" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-bold text-blue-800 bg-blue-50 border border-blue-100 rounded-xl outline-none transition-all cursor-pointer shadow-sm" onchange="updateSpokes()">
-                                                <option value="tanbinh" data-vi-text="Central Hub Tân Bình (Khu hậu cần Sân bay)" data-en-text="Central Hub Tan Binh (Airport logistics zone)">Central Hub Tân Bình (Khu hậu cần Sân bay)</option>
-                                                <option value="catlai" data-vi-text="Central Hub Cát Lái (Cụm cảng trung chuyển)" data-en-text="Central Hub Cat Lai (Port transit cluster)">Central Hub Cát Lái (Cụm cảng trung chuyển)</option>
-                                                <option value="binhchanh" data-vi-text="Central Hub Bình Chánh (Cửa ngõ miền Tây)" data-en-text="Central Hub Binh Chanh (Western gateway)">Central Hub Bình Chánh (Cửa ngõ miền Tây)</option>
-                                                <option value="thuduc" data-vi-text="Central Hub Thủ Đức (Khu công nghệ cao)" data-en-text="Central Hub Thu Duc (Hi-Tech Park)">Central Hub Thủ Đức (Khu công nghệ cao)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="space-y-0 relative ml-2 mt-4">
+                                    <div class="absolute left-2.5 md:left-3 top-6 bottom-16 w-0.5 bg-gray-200 -z-10 border-l-2 border-dashed border-gray-300"></div>
 
-                                <div id="leg-3" class="relative">
-                                    <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-white border-2 border-red-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-location-dot text-red-500 text-[8px] md:text-[10px]"></i></div>
-                                    <div class="pl-5 md:pl-6">
-                                        <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3"><span class="lang-vi">Chặng Giao Khách: Qua Bưu cục (Spoke) & Last-mile</span><span class="lang-en">Delivery Leg: Spoke & Last-mile</span></h3>
-                                        <div class="space-y-3 md:space-y-4">
-                                            <div class="relative transition-all duration-300" id="custom-spoke-dropdown-wrapper">
-                                                <div id="spoke-dropdown-trigger" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gray-800 bg-gray-50 border border-gray-200 rounded-xl hover:bg-white hover:border-red-300 outline-none transition-all cursor-pointer shadow-sm flex items-center justify-between" onclick="toggleSpokeDropdown(event)">
-                                                    <span id="spoke-dropdown-label" class="truncate pr-2"><span class="lang-vi">Không qua bưu cục Spoke (Giao trực tiếp từ Hub Nội Đô)</span><span class="lang-en">No Spoke (Direct from Hub)</span></span>
-                                                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
-                                                </div>
-                                                <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-shop text-gel-dark text-sm"></i></div>
-                                                <div id="spoke-dropdown-menu" class="hidden absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl max-h-48 md:max-h-60 overflow-y-auto z-50 text-xs md:text-sm"></div>
-                                                <input type="hidden" id="spoke-list" value="none">
+                                    <div id="leg-1" class="pb-5 md:pb-6 relative">
+                                        <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-warehouse text-blue-500 text-[8px] md:text-[10px]"></i></div>
+                                        <div class="pl-5 md:pl-6">
+                                            <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3"><span class="lang-vi">Từ: Pooling Hub (Vành đai công nghiệp)</span><span class="lang-en">From: Pooling Hub (Industrial Belt)</span></h3>
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-location-crosshairs text-gray-400 text-sm"></i></div>
+                                                <select id="origin" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer shadow-sm" onchange="calculatePrice()">
+                                                    <option value="25" data-vi-text="Pooling Hub Dĩ An, Bình Dương (~ 25 km trục chính)" data-en-text="Pooling Hub Di An, Binh Duong (~ 25 km main route)">Pooling Hub Dĩ An, Bình Dương (~ 25 km trục chính)</option>
+                                                    <option value="35" data-vi-text="Pooling Hub Biên Hòa, Đồng Nai (~ 35 km trục chính)" data-en-text="Pooling Hub Bien Hoa, Dong Nai (~ 35 km main route)">Pooling Hub Biên Hòa, Đồng Nai (~ 35 km trục chính)</option>
+                                                    <option value="65" data-vi-text="Pooling Hub Phú Mỹ, BR-VT (~ 65 km trục chính)" data-en-text="Pooling Hub Phu My, BR-VT (~ 65 km main route)">Pooling Hub Phú Mỹ, BR-VT (~ 65 km trục chính)</option>
+                                                    <option value="20" data-vi-text="Pooling Hub Bến Lức, Long An (~ 20 km trục chính)" data-en-text="Pooling Hub Ben Luc, Long An (~ 20 km main route)">Pooling Hub Bến Lức, Long An (~ 20 km trục chính)</option>
+                                                </select>
                                             </div>
                                             
-                                            <div class="relative group">
-                                                <input type="text" id="dest-address" onblur="updateMap();" onkeydown="if(event.key === 'Enter') { updateMap(); }" data-vi-placeholder="Nhập địa chỉ giao khách cuối (VD: Landmark 81)" data-en-placeholder="Enter final delivery address" placeholder="Nhập địa chỉ giao khách cuối (VD: Landmark 81)" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
-                                                <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-magnifying-glass text-gray-400 text-sm group-focus-within:text-red-500 transition-colors"></i></div>
+                                            <div class="relative group mt-2 md:mt-3">
+                                                <input type="text" id="pickup-address" onblur="updateMap();" onkeydown="if(event.key === 'Enter') { updateMap(); }" data-vi-placeholder="Nhập địa điểm lấy hàng chi tiết (VD: KCN Sóng Thần)" data-en-placeholder="Enter specific pickup address" placeholder="Nhập địa điểm lấy hàng chi tiết (VD: KCN Sóng Thần)" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
+                                                <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-location-arrow text-gray-400 text-sm group-focus-within:text-gel-DEFAULT transition-colors"></i></div>
                                             </div>
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                                                <div class="relative group">
-                                                    <input type="text" data-vi-placeholder="Tên người nhận *" data-en-placeholder="Receiver Name *" placeholder="Tên người nhận *" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
-                                                    <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
-                                                        <i class="fa-regular fa-user text-gray-400 text-sm group-focus-within:text-red-500 transition-colors"></i>
+                                        </div>
+                                    </div>
+
+                                    <div id="leg-2" class="pb-5 md:pb-6 transition-all duration-300 relative">
+                                        <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-blue-500 border-2 border-blue-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-building-circle-check text-white text-[8px] md:text-[10px]"></i></div>
+                                        <div class="pl-5 md:pl-6">
+                                            <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3">
+                                                <span class="lang-vi">Đến: Central Hub (Nội đô TPHCM)</span><span class="lang-en">To: Central Hub (HCMC Center)</span>
+                                            </h3>
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-arrow-down-up-across-line text-blue-500 text-sm"></i></div>
+                                                <select id="central-hub" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-bold text-blue-800 bg-blue-50 border border-blue-100 rounded-xl outline-none transition-all cursor-pointer shadow-sm" onchange="updateSpokes()">
+                                                    <option value="tanbinh" data-vi-text="Central Hub Tân Bình (Khu hậu cần Sân bay)" data-en-text="Central Hub Tan Binh (Airport logistics zone)">Central Hub Tân Bình (Khu hậu cần Sân bay)</option>
+                                                    <option value="catlai" data-vi-text="Central Hub Cát Lái (Cụm cảng trung chuyển)" data-en-text="Central Hub Cat Lai (Port transit cluster)">Central Hub Cát Lái (Cụm cảng trung chuyển)</option>
+                                                    <option value="binhchanh" data-vi-text="Central Hub Bình Chánh (Cửa ngõ miền Tây)" data-en-text="Central Hub Binh Chanh (Western gateway)">Central Hub Bình Chánh (Cửa ngõ miền Tây)</option>
+                                                    <option value="thuduc" data-vi-text="Central Hub Thủ Đức (Khu công nghệ cao)" data-en-text="Central Hub Thu Duc (Hi-Tech Park)">Central Hub Thủ Đức (Khu công nghệ cao)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="leg-3" class="relative">
+                                        <div class="absolute -left-2.5 md:-left-3 top-0 w-5 h-5 md:w-6 md:h-6 bg-white border-2 border-red-500 rounded-full flex items-center justify-center"><i class="fa-solid fa-location-dot text-red-500 text-[8px] md:text-[10px]"></i></div>
+                                        <div class="pl-5 md:pl-6">
+                                            <h3 class="font-bold text-gray-800 text-xs md:text-sm mb-2 md:mb-3"><span class="lang-vi">Chặng Giao Khách: Qua Bưu cục (Spoke) & Last-mile</span><span class="lang-en">Delivery Leg: Spoke & Last-mile</span></h3>
+                                            <div class="space-y-3 md:space-y-4">
+                                                <div class="relative transition-all duration-300" id="custom-spoke-dropdown-wrapper">
+                                                    <div id="spoke-dropdown-trigger" class="block w-full pl-9 md:pl-11 pr-8 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gray-800 bg-gray-50 border border-gray-200 rounded-xl hover:bg-white hover:border-red-300 outline-none transition-all cursor-pointer shadow-sm flex items-center justify-between" onclick="toggleSpokeDropdown(event)">
+                                                        <span id="spoke-dropdown-label" class="truncate pr-2"><span class="lang-vi">Không qua bưu cục Spoke (Giao trực tiếp từ Hub Nội Đô)</span><span class="lang-en">No Spoke (Direct from Hub)</span></span>
+                                                        <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
                                                     </div>
+                                                    <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-shop text-gel-dark text-sm"></i></div>
+                                                    <div id="spoke-dropdown-menu" class="hidden absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl max-h-48 md:max-h-60 overflow-y-auto z-50 text-xs md:text-sm"></div>
+                                                    <input type="hidden" id="spoke-list" value="none">
                                                 </div>
+                                                
                                                 <div class="relative group">
-                                                    <input type="tel" data-vi-placeholder="Số điện thoại *" data-en-placeholder="Phone Number *" placeholder="Số điện thoại *" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
-                                                    <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
-                                                        <i class="fa-solid fa-phone text-gray-400 text-sm group-focus-within:text-red-500 transition-colors"></i>
+                                                    <input type="text" id="dest-address" onblur="updateMap();" onkeydown="if(event.key === 'Enter') { updateMap(); }" data-vi-placeholder="Nhập địa chỉ giao khách cuối (VD: Landmark 81)" data-en-placeholder="Enter final delivery address" placeholder="Nhập địa chỉ giao khách cuối (VD: Landmark 81)" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
+                                                    <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none"><i class="fa-solid fa-magnifying-glass text-gray-400 text-sm group-focus-within:text-red-500 transition-colors"></i></div>
+                                                </div>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                                                    <div class="relative group">
+                                                        <input type="text" data-vi-placeholder="Tên người nhận *" data-en-placeholder="Receiver Name *" placeholder="Tên người nhận *" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
+                                                        <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                                                            <i class="fa-regular fa-user text-gray-400 text-sm group-focus-within:text-red-500 transition-colors"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="relative group">
+                                                        <input type="tel" data-vi-placeholder="Số điện thoại *" data-en-placeholder="Phone Number *" placeholder="Số điện thoại *" class="block w-full pl-9 md:pl-11 pr-4 py-2.5 md:py-3.5 text-xs md:text-sm font-semibold text-gel-midnight bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-gel-DEFAULT outline-none transition-all shadow-sm">
+                                                        <div class="absolute inset-y-0 left-0 pl-3 md:pl-4 flex items-center pointer-events-none">
+                                                            <i class="fa-solid fa-phone text-gray-400 text-sm group-focus-within:text-red-500 transition-colors"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1023,7 +1005,7 @@
                             </div>
                         </div>
 
-                        <div id="step-options" class="bg-white p-5 md:p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 step-disabled relative">
+                        <div id="step-options" class="bg-white p-5 md:p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 relative">
                             <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center text-gel-midnight"><span class="bg-purple-600 text-white w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center mr-2 md:mr-3 text-xs md:text-sm">3</span> <span class="lang-vi">Phụ phí tùy chọn</span><span class="lang-en">Optional Surcharges</span></h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                                 <label class="flex items-center justify-between border border-gray-100 bg-gray-50 p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer hover:bg-purple-50 hover:border-purple-200 transition-all">
@@ -1527,78 +1509,82 @@
 
         // --- ACCOUNT MANAGEMENT ---
    function updateUIForUser() {
-    // Desktop elements
-    const btnLogin = document.getElementById('btn-login');
-    const profileNav = document.getElementById('user-profile-nav');
-    const navUserName = document.getElementById('nav-user-name');
-    const avatarInitial = document.getElementById('user-avatar-initial');
-    const lockOverlay = document.getElementById('lock-overlay');
-    const bookingContent = document.getElementById('booking-content');
-    
-    // Mobile elements
-    const mobileBtnLogin = document.getElementById('mobile-btn-login');
-    const mobileUserProfile = document.getElementById('mobile-user-profile');
-    
-    if (currentUser) {
-        // Desktop
-        if(btnLogin) btnLogin.classList.add('hidden');
-        if(profileNav) profileNav.classList.remove('hidden');
-        if(navUserName) navUserName.textContent = currentUser.name;
-        if(avatarInitial) avatarInitial.innerHTML = currentUser.name.charAt(0).toUpperCase();
+            // Desktop elements
+            const btnLogin = document.getElementById('btn-login');
+            const profileNav = document.getElementById('user-profile-nav');
+            const navUserName = document.getElementById('nav-user-name');
+            const avatarInitial = document.getElementById('user-avatar-initial');
+            
+            // Phần tử điều khiển trang Booking
+            const bookingContent = document.getElementById('booking-content');
+            
+            // Mobile elements
+            const mobileBtnLogin = document.getElementById('mobile-btn-login');
+            const mobileUserProfile = document.getElementById('mobile-user-profile');
+            
+            if (currentUser) {
+                // --- ĐÃ ĐĂNG NHẬP (MỞ KHÓA) ---
+                if(btnLogin) btnLogin.classList.add('hidden');
+                if(profileNav) profileNav.classList.remove('hidden');
+                if(navUserName) navUserName.textContent = currentUser.name;
+                if(avatarInitial) avatarInitial.innerHTML = currentUser.name.charAt(0).toUpperCase();
 
-        // Mobile
-        if(mobileBtnLogin) mobileBtnLogin.classList.add('hidden');
-        if(mobileUserProfile) {
-            mobileUserProfile.classList.remove('hidden');
-            mobileUserProfile.classList.add('flex');
-        }
+                if(mobileBtnLogin) mobileBtnLogin.classList.add('hidden');
+                if(mobileUserProfile) {
+                    mobileUserProfile.classList.remove('hidden');
+                    mobileUserProfile.classList.add('flex');
+                }
 
-        const ids = ['input-acc-name', 'input-acc-company', 'input-acc-phone', 'input-acc-email', 'input-acc-address'];
-        const values = [currentUser.name, currentUser.company, currentUser.phone, currentUser.email, currentUser.address];
-        ids.forEach((id, idx) => { if(document.getElementById(id)) document.getElementById(id).value = values[idx] || ''; });
-        if(document.getElementById('acc-display-name')) document.getElementById('acc-display-name').textContent = currentUser.company || currentUser.name;
+                // Cập nhật thông tin hồ sơ
+                const ids = ['input-acc-name', 'input-acc-company', 'input-acc-phone', 'input-acc-email', 'input-acc-address'];
+                const values = [currentUser.name, currentUser.company, currentUser.phone, currentUser.email, currentUser.address];
+                ids.forEach((id, idx) => { if(document.getElementById(id)) document.getElementById(id).value = values[idx] || ''; });
+                if(document.getElementById('acc-display-name')) document.getElementById('acc-display-name').textContent = currentUser.company || currentUser.name;
 
-        const adminTab = document.getElementById('admin-voucher-tab');
-        const roleBadge = document.getElementById('acc-role-badge');
-        if(currentUser.email === 'admin@gel.vn' || currentUser.role === 'admin') {
-            if(adminTab) adminTab.classList.remove('hidden');
-            if(roleBadge) {
-                roleBadge.innerHTML = '<span class="lang-vi">ADMIN HỆ THỐNG</span><span class="lang-en">SYSTEM ADMIN</span>';
-                roleBadge.className = "bg-red-500 text-white px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-wider";
+                // Xử lý Admin
+                const adminTab = document.getElementById('admin-voucher-tab');
+                const roleBadge = document.getElementById('acc-role-badge');
+                if(currentUser.email === 'admin@gel.vn' || currentUser.role === 'admin') {
+                    if(adminTab) adminTab.classList.remove('hidden');
+                    if(roleBadge) {
+                        roleBadge.innerHTML = '<span class="lang-vi">ADMIN HỆ THỐNG</span><span class="lang-en">SYSTEM ADMIN</span>';
+                        roleBadge.className = "bg-red-500 text-white px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-wider";
+                    }
+                    renderVoucherList();
+                } else {
+                    if(adminTab) adminTab.classList.add('hidden');
+                    if(roleBadge) {
+                        roleBadge.innerHTML = '<span class="lang-vi">Đối tác SMEs VIP</span><span class="lang-en">VIP SME Partner</span>';
+                        roleBadge.className = "bg-gray-200 text-gray-800 border border-gray-300 px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-wider";
+                    }
+                }
+
+                // MỞ KHÓA TRANG BOOKING TẠI CHỖ
+                if(bookingContent) {
+                    bookingContent.classList.remove('blur-[8px]', 'pointer-events-none', 'opacity-60', 'select-none');
+                }
+
+            } else {
+                // --- CHƯA ĐĂNG NHẬP (KHÓA MỜ) ---
+                if(btnLogin) btnLogin.classList.remove('hidden');
+                if(profileNav) profileNav.classList.add('hidden');
+                
+                if(mobileBtnLogin) mobileBtnLogin.classList.remove('hidden');
+                if(mobileUserProfile) {
+                    mobileUserProfile.classList.add('hidden');
+                    mobileUserProfile.classList.remove('flex');
+                }
+
+                // LÀM MỜ TRANG BOOKING TẠI CHỖ (Không chèn thêm bảng)
+                if(bookingContent) {
+                    // Thêm blur-[8px] để làm mờ, pointer-events-none để khóa click, opacity-60 để làm tối đi
+                    bookingContent.classList.add('blur-[8px]', 'pointer-events-none', 'opacity-60', 'select-none');
+                }
+                
+                activeVoucher = 0; 
+                activeVoucherCode = '';
             }
-            renderVoucherList();
-        } else {
-            if(adminTab) adminTab.classList.add('hidden');
-            if(roleBadge) {
-                roleBadge.innerHTML = '<span class="lang-vi">Đối tác SMEs VIP</span><span class="lang-en">VIP SME Partner</span>';
-                roleBadge.className = "bg-gray-200 text-gray-800 border border-gray-300 px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-wider";
-            }
         }
-
-        // Mở khóa nội dung booking
-        if(lockOverlay) lockOverlay.classList.add('hidden');
-        if(bookingContent) bookingContent.classList.remove('blur-md', 'pointer-events-none');
-
-    } else {
-        // Desktop
-        if(btnLogin) btnLogin.classList.remove('hidden');
-        if(profileNav) profileNav.classList.add('hidden');
-        
-        // Mobile
-        if(mobileBtnLogin) mobileBtnLogin.classList.remove('hidden');
-        if(mobileUserProfile) {
-            mobileUserProfile.classList.add('hidden');
-            mobileUserProfile.classList.remove('flex');
-        }
-
-        // Khóa mờ nội dung booking
-        if(lockOverlay) lockOverlay.classList.remove('hidden');
-        if(bookingContent) bookingContent.classList.add('blur-md', 'pointer-events-none');
-        
-        activeVoucher = 0; 
-        activeVoucherCode = '';
-    }
-}
         function switchAuthTab(tab) {
             const btnL = document.getElementById('auth-tab-login'); const btnR = document.getElementById('auth-tab-register');
             const frmL = document.getElementById('form-login'); const frmR = document.getElementById('form-register');
