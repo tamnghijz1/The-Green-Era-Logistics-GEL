@@ -1,7 +1,7 @@
 # 🌿 Green Era Logistics (GEL) - Shaping Sustainable Trade Standards
 
 ![Status](https://img.shields.io/badge/status-active-success.svg)
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.2-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 **Green Era Logistics (GEL)** là nền tảng công nghệ số hóa điều phối và xanh hóa chuỗi vận tải đô thị. Dự án cung cấp giải pháp toàn diện giúp các doanh nghiệp (SMEs) vận chuyển hàng hóa từ vành đai công nghiệp về trung tâm nội đô với chi phí thấp hơn xe xăng truyền thống, đồng thời hỗ trợ trích xuất báo cáo giảm phát thải (ESG) chuẩn quốc tế.
